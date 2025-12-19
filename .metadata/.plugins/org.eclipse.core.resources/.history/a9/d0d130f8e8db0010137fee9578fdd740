@@ -1,0 +1,20 @@
+package cloud;
+
+public class Fifth {
+	public static void main(String ar[]) {
+//		int _num;
+//		int $num;
+//		int _Num;
+//		int 0num;
+//		int nu m;
+//		int public; //예약어 X
+		
+		int num1 = 1;
+		int num2 = 2;
+		int num3 = 3;
+		int result;
+		
+		//변수 3개를 더해서 100이 result에 출력되도록 하세요.
+		System.out.println("num1 + num2 + num3 = " + num1 + num2 + num3);
+	}
+}

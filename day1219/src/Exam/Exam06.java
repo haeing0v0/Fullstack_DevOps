@@ -1,0 +1,25 @@
+package Exam;
+
+import java.util.Scanner;
+
+public class Exam06 {
+	public static void main(String[] args) {
+//		아래의 출력예와 같이 출력하는 자바프로그램을 작성하여 보시오.
+//		- 출력예 -
+//		두 개의 정수 10과 20의 합은 30, 차는 -10, 곱은 200입니다.
+
+		Scanner scan = new Scanner(System.in);
+		
+		int x = scan.nextInt();
+		int y = scan.nextInt();
+		
+		int sum = x + y;
+		int sub = x - y;
+		int mul = x * y;
+		
+		System.out.println("두 개의 정수 " + x + "과 " + y + "의 합은 " + sum
+				+ ", 차는 " + sub + ", 곱은 " + mul + "입니다.");
+		
+		scan.close();
+	}
+}

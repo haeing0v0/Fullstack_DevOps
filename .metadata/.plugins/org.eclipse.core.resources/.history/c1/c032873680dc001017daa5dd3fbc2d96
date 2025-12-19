@@ -1,0 +1,8 @@
+package cloud;
+
+public class FloatVariable {
+	public static void main(String[] args) {
+		
+		float fnum = 3.14;
+	}
+}

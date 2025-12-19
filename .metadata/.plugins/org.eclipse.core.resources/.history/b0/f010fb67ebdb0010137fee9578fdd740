@@ -1,0 +1,16 @@
+package cloud;
+
+public class sixth {
+	public static void main(String ar[]) {
+		
+		//숫자 3개를 나누어서 11이 되도록 출력하세요
+		
+		int num1 = 66;
+		int num2 = 2;
+		int num3 = 3;
+		
+		int num4 = num1 / num2;
+		
+		System.out.println("숫자 3개를 나눈 결과 값: " + num4 / num3);
+	}
+}

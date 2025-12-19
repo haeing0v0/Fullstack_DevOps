@@ -1,0 +1,8 @@
+package operand;
+
+public class Operand4 {
+	public static void main(String[] args) {
+		
+		int num = 0b00000101; //5
+	}
+}

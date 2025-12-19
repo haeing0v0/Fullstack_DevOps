@@ -1,0 +1,9 @@
+package cloud;
+
+public class First {
+	public static void main(String ar[]) {
+		System.out.println("Hello World!!");
+		System.out.print("Helo World!!");
+		System.out.print("Helo World!!");
+	}
+}

@@ -1,0 +1,17 @@
+package Exam;
+
+public class Exam7 {
+	public static void main(String[] args) {
+//		아래의 출력예와 같이 출력하는 자바프로그램을 작성하여 보시오.
+//		- 출력예 -
+//		국어 90점, 영어 80점, 수학 70점이며 총점은 240점입니다.
+		
+		int kor = 90;
+		int eng = 80;
+		int mat = 70;
+		
+		int sum = kor + eng + mat;
+		
+		System.out.println("국어 " + kor + "점, 영어 " + eng + "점, 수학 " + mat + "점이며 총점은 " + sum + "점입니다.");
+	}
+}
