@@ -18,5 +18,7 @@ public class Keyboard2 {
 		
 		System.out.println("sum = " + sum);
 
+		sc1.close();
+		sc2.close();
 	}
 }

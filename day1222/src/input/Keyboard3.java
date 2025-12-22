@@ -20,7 +20,7 @@ public class Keyboard3 {
 		int day = sc.nextInt();
 		
 		System.out.println("입력하신 생년월일은 " + year + "년 " + month + "월 " + day + "일생입니다.");
-
+		sc.close();
 	}
 
 }

@@ -4,7 +4,6 @@ public class DecreaseOperator { //Decrease : 감소
 	public static void main(String[] args) {
 		
 		int y = 10;
-		int z;
 		
 		System.out.println("---------------------------------");
 		y--;

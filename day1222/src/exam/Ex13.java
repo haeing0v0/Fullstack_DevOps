@@ -16,6 +16,8 @@ public class Ex13 {
 //	7) 시스템의 입력장치로부터 읽는 Scanner를 생성하고 s1이라는 이름의 Scanner 변수선언 
 		Scanner s1 = new Scanner(System.in);
 //	8) 읽은 문자열을 String inputData 변수에 저장
-		String inputData = s1.nextLine();
+		//String inputData = s1.nextLine();
+		
+		s1.close();
 	}
 }

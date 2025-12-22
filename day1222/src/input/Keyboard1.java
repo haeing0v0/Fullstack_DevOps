@@ -15,5 +15,6 @@ public class Keyboard1 {
 		System.out.println("keyBoard = " + (keyBoard + 10));
 		System.out.println("number = " + (number + 10));
 
+		sc.close();
 	}
 }

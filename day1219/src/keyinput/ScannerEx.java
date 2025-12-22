@@ -11,5 +11,7 @@ public class ScannerEx {
 		System.out.print("값을 입력해주세요: ");
 		String keyboardInput = sc.nextLine();
 		System.out.println("keyboardInput = " + keyboardInput);
+		
+		sc.close();
 	}
 }

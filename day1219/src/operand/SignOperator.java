@@ -10,7 +10,7 @@ public class SignOperator {
 		System.out.println("result1 = " + result1);
 		System.out.println("result2 = " + result2);
 		
-		byte b = 100;
+		//byte b = 100;
 		//byte result3 = -b; 컴파일 에러 연산, 연산하면 정수로 변환된다.
 	}
 }
