@@ -1,7 +1,0 @@
-package cloud;
-
-public class Fifth {
-	public static void main(String ar[]) {
-		
-	}
-}

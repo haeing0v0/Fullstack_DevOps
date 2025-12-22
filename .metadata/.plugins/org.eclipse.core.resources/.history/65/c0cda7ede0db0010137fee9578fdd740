@@ -1,9 +1,0 @@
-package cloud;
-
-public class Third {
-	public static void main(String ar[]) {
-		
-		int num = 0b1111;
-		System.out.println("num =  " + num);
-	}
-}

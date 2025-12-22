@@ -1,9 +1,0 @@
-package operand;
-
-public class Operand5 {
-	public static void main(String[] args) {
-		int num1 = 0b00001111;
-		int num2 = 0b00001010;
-		int result = ~num1; //11110000
-	}
-}
