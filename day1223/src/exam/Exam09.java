@@ -14,7 +14,7 @@ public class Exam09 {
 //		높이(세로 길이)를 입력하세요 : 10
 //		구하고자 하는 삼각형(원/사각형)의 면적은 50.00(314.16/100)입니다.
 		
-		final double pi = 3.141592;
+		final double PI = 3.141592;
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -23,7 +23,7 @@ public class Exam09 {
 		
 		double result = 0;
 		
-		if(select.equals("R") || select.equals("사각형")) {
+		if(select.equals("R") || select.equals("사각형") || select.equals("r")) {
 			System.out.print("가로 길이를 입력하세요 : ");
 			int a = sc.nextInt();
 			
@@ -35,16 +35,16 @@ public class Exam09 {
 			System.out.print("구하고자 하는 사각형의 면적은 " + result + "입니다.");
 		} 
 		
-		else if (select.equals("C") || select.equals("원")) {
+		else if (select.equals("C") || select.equals("원") || select.equals("c")) {
 			System.out.print("반지름 길이를 입력하세요 : ");
 			int r = sc.nextInt();
 			
-			result = r * r * pi;
+			result = r * r * PI;
 			
 			System.out.print("구하고자 하는 원의 면적은 " + result + "입니다.");
 		} 
 		
-		else if (select.equals("T") || select.equals("삼각형")) {
+		else if (select.equals("T") || select.equals("삼각형") || select.equals("t")) {
 			System.out.print("밑변의 길이를 입력하세요 : ");
 			int a = sc.nextInt();
 			

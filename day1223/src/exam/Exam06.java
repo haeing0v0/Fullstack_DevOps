@@ -26,7 +26,7 @@ public class Exam06 {
 		System.out.print("키를 입력하세요 (m) : ");
 		double height = sc.nextDouble();
 		
-		double bmi = weight / (height * height);
+		double bmi = weight / (height * height); //Math.pow(height, 2); - 제곱연산
 		System.out.println(bmi);
 		
 		if (bmi >= 20.0 && bmi < 25.0) 
