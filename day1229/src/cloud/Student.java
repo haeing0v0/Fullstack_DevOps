@@ -7,6 +7,7 @@ public class Student {
 	//입력 : 생성자 메서드에 매개변수 정의, set 메서드 정의
 	//출력 : get 메서드 정의
 	
+	int num;
 	private static int serialNum; //static 멤버
 	private int studentId; //인스턴스 멤버
 	private String name; //인스턴스 멤버
@@ -30,6 +31,8 @@ public class Student {
 	}
 
 	public int getStudentId() {
+		int num = 100; //메서드 내에 정의된 변수는 로컬변수이다.
+		System.out.println("getStudentId()의 로컬변수 num = " + num);
 		return studentId;
 	}
 

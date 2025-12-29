@@ -1,8 +1,22 @@
 package cloud;
 
 public class StudentRun {
+	
+	public int sum() { //인스턴스 멤버
+		return 100;
+	}
+	
+	public static int minus() { //static 멤버
+		return 100;
+	}
 
 	public static void main(String[] args) {
+		
+		StudentRun sr = new StudentRun(); //인스턴스 멤버는 객체를 생성해야 한다.
+		sr.sum();
+		
+		//static 멤버
+		StudentRun.minus();
 		
 		//Student 객체 생성 ==> Student 데이터를 사용하겠다.
 		//1. 클래스 타입 선언, 2. 변수 작성, 3. new 연산자 사용, 4. 생성자 호출
@@ -21,6 +35,9 @@ public class StudentRun {
 //		Student st2 = new Student(250001, "홍길동");
 //		int studentId = st2.getStudentId();
 //		String name = st2.getName();
+		
+		System.out.println("================================");
+		System.out.println("studentId = " + studentId);
 		
 		//인스턴스 멤버 방법 처리(객체를 생성하지 않으면 사용할 수 없다.)
 		st1.setSerialNum(00001); //static 멤버는 지금처럼 인스턴스로 처리하지 않는다.
