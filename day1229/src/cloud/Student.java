@@ -7,8 +7,9 @@ public class Student {
 	//입력 : 생성자 메서드에 매개변수 정의, set 메서드 정의
 	//출력 : get 메서드 정의
 	
-	private int studentId;
-	private String name;
+	private static int serialNum; //static 멤버
+	private int studentId; //인스턴스 멤버
+	private String name; //인스턴스 멤버
 	
 	public Student() {
 		
@@ -20,6 +21,14 @@ public class Student {
 	}
 	
 	//출력 메서드 작성 (get 메서드)
+	public static int getSerialNum() {
+		return serialNum;
+	}
+	
+	public static void setSerialNum(int serialNum) {
+		Student.serialNum = serialNum;
+	}
+
 	public int getStudentId() {
 		return studentId;
 	}
