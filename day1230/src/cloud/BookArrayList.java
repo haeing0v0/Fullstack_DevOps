@@ -12,7 +12,13 @@ public class BookArrayList {
 		
 		for (int i = 0;i < lib.size(); i++) {
 			Book book = lib.get(i);
-			System.out.println("book = " + book);
+			//System.out.println("book = " + book);
+			book.showBookInfo();
+		}
+		
+		System.out.println("=======향상된 for문=======");
+		for (Book book : lib) {
+			book.showBookInfo();
 		}
 	}
 }
