@@ -1,6 +1,10 @@
 package cloud;
 
 public class Eagle extends Animal{
+	
+	public Eagle() {
+		move();
+	}
 
 	@Override
 	public void move() {

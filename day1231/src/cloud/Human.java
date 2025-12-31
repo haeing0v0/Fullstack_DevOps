@@ -2,6 +2,10 @@ package cloud;
 
 public class Human extends Animal {
 	
+	public Human() {
+		move();
+	}
+	
 	@Override
 	public void move() {
 		
