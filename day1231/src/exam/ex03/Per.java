@@ -2,9 +2,10 @@ package exam.ex03;
 
 public class Per {
 	
-	double perimeter(int r) {
-		final double PI = 3.141592;
-		
+	static final double PI = 3.141592;
+	
+	public double perimeter(int r) {
+			
 		return 2 * PI * r;
 	}
 }
