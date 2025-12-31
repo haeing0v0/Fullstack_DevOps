@@ -47,8 +47,5 @@ public class Ex07 {
 			}
 			System.out.println(cnt * 10 + "점");
 		}
-		
-		
-
 	}
 }
