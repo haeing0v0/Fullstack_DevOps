@@ -1,0 +1,16 @@
+package p357ex09;
+
+public class RoundRobin implements Scheduler {
+
+	@Override
+	public void getNextCall() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendCallToAgent() {
+		// TODO Auto-generated method stub
+		
+	}
+}
