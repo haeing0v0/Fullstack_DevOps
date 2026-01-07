@@ -8,5 +8,9 @@ public class OutClass {
 		
 		int instanceField1;
 		static int staticField2;
+		
+		void instanceMethod() {}
+		
+		static void staticMethod() {}
 	}
 }
