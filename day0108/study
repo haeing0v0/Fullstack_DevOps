@@ -1,0 +1,69 @@
+내부(중첩)클래스 : 클래스 내부에 선언한 클래스, 클래스 내부에서만 사용할 목적이다.
+
+class Outer {
+	class Inner { //Outer 클래스의 멤버인 Inner 클래스
+		//내부 클래스에 대한 내용이다.
+	}
+}
+
+내부 클래스가 인스턴스 멤버인지 정적(static) 멤버인지에 따라 사용방법(객체생성, 클래스 이름)이 다르다.
+
+<인스턴스 멤버>
+class Outer {
+	class Inner { 
+		
+	}
+}
+
+Outer outer = new Outer();
+Outer.Inner inner = outer.new Inner();
+
+
+<정적(static) 멤버>
+class Outer {
+	static class Inner { 
+		
+	}
+}
+
+Outer.Inner inner = new Outer.Inner();
+
+
+지역(local) 클래스 : 메서드 내에 정의해서 사용하는 클래스, 메서드가 호출되면 종료되기 전에 객체 생성, 
+지역 클래스 내부 필드, 메서드 사용을 모두 끝내야 한다.
+
+void method() {
+	class A {
+		A() {} //생성자
+		int field; //필드 멤버
+		void method1() {} //메서드 멤버
+	}
+	A a = new A();
+	a.field = 10;
+	a.method1();
+}
+
+========================================================
+<익명 객체>
+이벤트(event) : 어떤 일이 발생하는 것
+리스너(listener) : 이벤트를 감지하는 것
+핸들러(handler) : 어떻게 처리하라고 구현하는 것
+
+익명 객체 : 이름없는 객체, 익명 객체를 만들려면 클래스를 상속하거나 인터페이스를 구현해야 한다.
+
+<일반상속>
+class Child extends Parent {...}
+객체생성 : Parent child = new Child();
+
+<익명객체>
+class Child extends Parent {...}
+
+
+
+
+
+
+
+
+
+

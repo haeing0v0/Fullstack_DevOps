@@ -9,6 +9,7 @@ public class ARun {
 		A.B b = a.new B(); //B 클래스 사용
 		b.method1();
 		
-		
+		A.C c = new A.C();
+		c.method1();
 	}
 }
