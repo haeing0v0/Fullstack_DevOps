@@ -11,6 +11,7 @@ public class ClassCastExceptionRun {
 		} catch (ClassCastException e) {
 			System.out.println("부모 자식 클래스 간에만 Casting이 가능합니다. \n" + e.getMessage());
 		}
+		
 	}
 	
 	public static void changeDog(Animal animal) {
