@@ -11,16 +11,16 @@ public class ConsoleRun {
 
 	      if (cons != null) {
 	         try {
-	            System.out.println("이름 : ");
+	            System.out.println("name : ");
 	            String name = cons.readLine();
 	            System.out.println("name = " + name);
 	            
 	         } catch (Exception e) {
 	            // TODO: handle exception
-	            System.out.println("예외 발생 : " + e.getMessage());
+	            System.out.println("exception event : " + e.getMessage());
 	         }
 	      } else {
-	         System.out.println("콘솔을 사용할수 없습니다.");
+	         System.out.println("Console not use");
 	      }
 	   }
 }
