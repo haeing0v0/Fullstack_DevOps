@@ -14,7 +14,7 @@ public class P592Ex03 {
 			osw = new OutputStreamWriter(fos);
 			
 			osw.write("지금까지 자바 정말 재미있게 공부했어요^^");
-			osw.flush();
+			osw.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

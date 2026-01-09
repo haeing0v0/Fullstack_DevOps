@@ -28,7 +28,7 @@ public class ObjectStreamRun {
 		ObjectOutputStream oos = null;
 		
 		try {
-			fos = new FileOutputStream("board.out");
+			fos = new FileOutputStream("C:/Temp/board.db");
 			oos = new ObjectOutputStream(fos);
 			
 			oos.writeObject(list);
@@ -36,6 +36,7 @@ public class ObjectStreamRun {
 			System.out.println("예외 발생 : " + e.getMessage());
 		} finally {
 			try {
+				oos.close();
 				fos.close();
 				System.out.println("출력을 종료합니다.");
 			} catch (Exception e2) {
@@ -50,7 +51,7 @@ public class ObjectStreamRun {
 		ObjectInputStream ois = null;
 		
 		try {
-			fis = new FileInputStream("board.out");
+			fis = new FileInputStream("C:/Temp/board.db");
 			ois = new ObjectInputStream(fis);
 			
 			List<Board> list = (List<Board>)ois.readObject();
@@ -67,9 +68,10 @@ public class ObjectStreamRun {
 				);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("예외 발생 : " + e.getMessage());
 		} finally {
 			try {
+				ois.close();
 				fis.close();
 				System.out.println("입력을 종료합니다.");
 			} catch (Exception e2) {
@@ -81,5 +83,7 @@ public class ObjectStreamRun {
 	public static void main(String[] args) {
 		writeList();
 		readList();
+		
+		//List<Board> list = readList();
 	}
 }
