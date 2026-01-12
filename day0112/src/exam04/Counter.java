@@ -8,7 +8,7 @@ public class Counter {
 		this.number = number;
 	}
 	
-	public int getNumber() {
+	public synchronized int getNumber() {
 		return number;
 	}
 	

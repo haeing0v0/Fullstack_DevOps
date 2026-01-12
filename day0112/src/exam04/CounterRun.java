@@ -10,9 +10,8 @@ public class CounterRun {
 		adder.start();
 		substractor.start();
 		
-		adder.join();
-	    substractor.join();
+		Thread.sleep(1000);
 	    
-		System.out.println(myCounter.getNumber());
+		System.out.println("CounterRun = " + myCounter.getNumber());
 	}
 }
