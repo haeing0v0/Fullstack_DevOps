@@ -1,4 +1,4 @@
-package waitontify;
+package waitnotify;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,17 @@ public class Library {
 			System.out.println(th.getName() + "waiting end");
 		}
 		
-		return ""; //꼭 반환값 확인
+		String book = sheIf.remove(0);
+		System.out.println(th.getName() + ": " + book + "lend");
+		
+		return book;
+	}
+	
+	public synchronized void returnBook(String book) throws Exception {
+		
+		Thread th = Thread.currentThread();
+		sheIf.add(book);
+		notifyAll();
+		System.out.println(th.getName() + ": " + book + "return");
 	}
 }
