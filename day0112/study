@@ -4,4 +4,10 @@
 4. 스레드는 자원간 경쟁관계(race condition)가 생기면 문제가 생길 수 있다. 이때 공유 자원에
 하나의 스레드만 접근하도록 순서를 제어하는 것이 동기화이다.
 
-<스레드 
+<스레드 생성 방법 2가지>
+1. MyThread가 Thread를 상속받고, 멤버인 run() 메서드를 오버라이드(Overriding)하여 실행 코드를 작성한다.
+	실행 클래스에서 MyThread 객체생성하여 start() 메서드를 실행한다.
+2. MyRunnable이 Runnable 구현체를 받아, 멤버인 추상 run() 메서드를 의무적으로 오버라이드(Overriding)하여
+	실행 코드를 작성한다.
+	Thread 클래스를 thread 변수로 선언하고 new Thread(new Runnable)로 생성자를 호출하여 객체 생성하면서
+	매개 변수로 Runnable 인터페이스를 값으로 전달한다. thread 인스턴스로 start() 메서드를 실행한다.
