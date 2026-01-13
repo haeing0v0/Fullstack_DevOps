@@ -1,8 +1,8 @@
-package method;
+package inher;
 
-public class Area {
+public class Circle {
 
-	final double PI = 3.14;
+	final double PI = 3.141592;
 	
 	//메서드 작성 : double circumferenceCircle(double r), double AreaCircle(double r) 
 	double circumferenceCircle(double r) { //원의 둘레
