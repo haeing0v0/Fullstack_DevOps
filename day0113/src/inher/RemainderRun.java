@@ -2,13 +2,13 @@ package inher;
 
 import java.util.Scanner;
 
-public class OperationRun {
+public class RemainderRun {
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
 		Remainder r = new Remainder();
 		
-		System.out.print("2개의 실수값을 입력하세요 : ");
+		System.out.print("2개의 정수 값을 입력하세요 : ");
 		int num1 = sc.nextInt();
 		int num2 = sc.nextInt();
 		

@@ -9,14 +9,13 @@ public class CircleRun {
 //		단, 원의 둘레와 면적을 계산하는 부분은 메소드로 처리함. (매개변수 1개 (반지름), 리턴값 실수값)
 		
 		Scanner sc = new Scanner(System.in);
-		Circle cc = new Circle();
 		CircleVolume cv = new CircleVolume();
 		
 		System.out.print("반지름을 입력하세요 : ");
 		double r = sc.nextDouble();
 		
-		double cf = cc.circumferenceCircle(r);
-		double areaCircle = cc.areaCircle(r);
+		double cf = cv.circumferenceCircle(r);
+		double areaCircle = cv.areaCircle(r);
 		
 		double circleVolume = cv.circleVolume(r);
 		
