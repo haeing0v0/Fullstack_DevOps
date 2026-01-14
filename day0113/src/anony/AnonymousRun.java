@@ -8,6 +8,12 @@ public class AnonymousRun {
 		anony.method1();
 		
 		anony.method2(new Bus());
-		anony.method2(new Taxi());
+		anony.method2(new Taxi() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				super.run();
+			}
+		});
 	}
 }
