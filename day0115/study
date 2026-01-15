@@ -1,0 +1,73 @@
+----------------------------------------------------------------------------------------------------------------
+0. 커뮤니티버전 다운로드 : https://dev.mysql.com/downloads/windows/installer/8.0.html
+1.파일질러 접속(bigUser) - MySQL 폴더 안에 mysql-installer-community-8.0.34.0.msi 파일 다운로드
+2. MySQL 설치(Mysql Server, Mysql Workbench, Mysql Shell)
+----------------------------------------------------------------------------------------------------------------
+3. 접속
+ MySQL Command Line 접속이 안될경우
+ 환경변수 설정 : MYSQL_HOME 만든다.  path에 %MYSQL_HOME%\bin 을 만든다.
+ 터미널 또는 CMD 창을 열고 mysql -uroot -p
+ password : 11111
+
+4.SQL(Struct Query Language)   
+      -------------------------------------------------------------------------------------------------------------------------
+                     DDL(정의어)                                             DML(조작어)                                  DCL(제어어)
+	 [DB, Table 생성, 변경, 삭제]                           [Table 검색, 입력, 수정, 삭제]              [사용자 권한 부여, 삭제] 
+         DDL 명령어를 실행하면 Auto Commit 이다.                                                               [쿼리 저장, 취소]
+       -----------------------------------------------------------------------------------------------------------------------------
+                   CREATE(생성)                                       SELECT(검색)                                      GRANT(권한부여)                        
+		   DROP(삭제)                                          INSERT(삽입)                                      REVOKE(권한삭제)
+                   ALTER(변경)                                         UPDATE(수정)                                     COMMIT(저장)
+                   TRUNCATE(레코드삭제)   	                    DELETE(삭제)                                      ROLLBACK(취소)
+      ------------------------------------------------------------------------------------------------------------------------------
+
+5. DB 생성
+ show databases;   #데이터베이스 검색
+ create database cloud;    # create(생성)  database(대상) cloud(데이터베이스이름)
+ DB 사용 ==> use cloud;  #use(사용) cloud(사용할 데이터베이스 이름)
+
+6. 테이블 생성
+create table board (
+   boardId int(4),     #mysql int,    oracle number
+   titel varchar(30),    #mysql varchar,  oracle varchar2
+   content varchar(50) 
+);
+
+create table board1 (
+   boardId int(4) primary key auto_increment,      #constraint append, oracle squence useing, auto_increment int using
+   titel varchar(30),    
+   content varchar(50) 
+);
+
+ 테이블 생성 확인 ====> show tables;
+ 테이블 구조 확인 ====> desc board;
+
+7. 레코드 값 입력
+INSERT INTO board VALUES (1001, "제목1", "내용1");
+INSERT INTO board(boardId, titel) VALUES (1002, "제목2");
+INSERT INTO board(content, boardId, titel) VALUES ("내용3", 1003, "제목3");
+-------------------------------------------------------
+INSERT INTO board1(titel, content) VALUES ("제목1", "내용1");
+INSERT INTO board1(titel, content) VALUES ("제목2", "내용2");
+INSERT INTO board1(titel, content) VALUES ("제목3", "내용3");
+
+
+8. 레코드 값 확인(검색)
+SELECT 절  : 검색하고 싶은 컬럼(필드)명을 작성(*(모든 컬럼),boardId, titel, content)
+FROM 절  : 테이블명(SELECT 절의 컬럼 정보를 가지고 있는 테이블)
+WHERE 절 : 검색하고 싶은 범위을 축소한다.
+ORDER BY 절 : 정렬(오름차순(ASC), 내림차순(DESC))
+GROUP BY 절 : 그룹 함수(max(), min(), sum())를 사용할때 사용한다.  
+HAVING 절 : 그룹 함수를 사용할때 범위를 축소한다.
+
+select * from board;
+
+ 
+================Mysql Tuturial 접속==================================
+1. Mysql API : https://www.mysqltutorial.org/
+
+
+================커밋 상태 확인===============================================
+select @@autocommit;   #autocommit = 1 상태 확인
+
+오토커밋 해제 ==> set autocommit = 0; 또는 set autocommit = false;
