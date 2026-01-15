@@ -71,3 +71,83 @@ select * from board;
 select @@autocommit;   #autocommit = 1 상태 확인
 
 오토커밋 해제 ==> set autocommit = 0; 또는 set autocommit = false;
+
+
+
+=================실습=======================================
+INSERT INTO tasks(title, start_date, due_date, description) VALUES("타이틀1", "2026-01-15", "2026-01-15", "tasks 테이블 데이터 입력");
+
+create table dept (
+  deptno int(2) primary key, #unique, not null 
+  dname varchar(20) not null,
+  loc varchar(20) 
+);
+
+INSERT INTO dept
+VALUES
+	(10, 'ACCOUNTING', 'NEW YORK'),
+        (20, 'RESEARCH', 'DALLAS'),
+	(30, 'SALES', 'CHICAGO'),
+	(40, 'OPERATING', 'BOSTON');
+
+create table emp (
+  empno int(4) primary key,
+  ename varchar(10) not null,
+  job varchar(20) not null,
+  mgr int(4),
+  hiredate date,
+  sal int(8),
+  comm int(8),
+  deptno int(2),
+  FOREIGN KEY fk_dept(deptno) REFERENCES dept(deptno)
+);
+
+insert into emp values(7369, 'SMITH', 'CLERK', 7902, '1980/12/17', 800, null, 20);
+insert into emp values(7499, 'ALLEN', 'SALESMAN', 7698, '1981/02/20', 1600, 300, 30);
+insert into emp values(7521, 'WARD', 'SALESMAN', 7698, '1981/02/22', 1250, 500, 30);
+insert into emp values(7566, 'JONES', 'MANAGER', 7839, '1981/04/02', 2975, null, 20);
+insert into emp values(7654, 'MARTIN', 'SALESMAN', 7698, '1981/09/28', 1250, 1400, 30);
+insert into emp values(7698, 'BLAKE', 'MANAGER', 7839, '1981/05/01', 2850, null, 30);
+insert into emp values(7788, 'SCOTT', 'ANALYST', 7566, '1987/04/19', 3000, null, 20);
+insert into emp values(7839, 'KING', 'PRESIDENT', null, '1981/11/17', 5000, null, 10);
+insert into emp values(7844, 'TURNER', 'SALESMAN', 7698, '1981/09/08', 1500, 0, 30);
+insert into emp values(7876, 'ADAMS', 'CLERK', 7788, '1987/05/23', 1100, null, 20);
+insert into emp values(7900, 'JAMES', 'CLERK', 7698, '1981/12/03', 950, null, 30);
+insert into emp values(7902, 'FORD', 'ANALYST', 7566, '1981/12/03', 3000, null, 20);
+insert into emp values(7934, 'MILLER', 'CLERK', 7782, '1982/01/23', 1300, null, 10);
+insert into emp values(7782, 'CLARK', 'MANAGER', 7839, '1981/06/09', 2450, null, 10);
+
+create table salgrade (
+  grade int,
+  losal int,
+  hisal int
+);
+
+insert into salgrade values (1, 700, 1200);
+insert into salgrade values (2, 1201, 1400);
+insert into salgrade values (3, 1401, 2000);
+insert into salgrade values (4, 2001, 3000);
+insert into salgrade values (5, 3001, 9999);
+
+9. 테이블 구조변경(ALTER => ADD, MODIFY, CHANGE)
+추가 : ALTER TABLE dept01 ADD tel VARCHAR(11) NOT NULL;
+수정 : ALTER TABLE dept01 MODIFY COLUMN tel int(4);  # ' ' 공백의 경우 데이터를 추가 후 테이블 컬럼 타입의 변경이 가능하다. 
+ALTER TABLE dept01 MODIFY COLUMN tel int(11); #길이 변경은 가능하나 
+ALTER TABLE dept01 MODIFY COLUMN mobile bigint(4);
+int(4) -> int(11), 실제 저장되는 값의 범위는 동일하다.
+이름변경 : ALTER TABLE dept01 CHANGE COLUMN tel mobile int(11);
+
+※ 데이터 수정 상황 생김 
+UPDATE dept01
+SET tel  = '01012345678';
+========================DML(조작어)=======================================
+삽입 : INSERT INTO dept01 VALUES (50, 'ACCOUNTING', 'NEW YORK', 01012345678);
+수정 : UPDATE 테이블명 SET(입력) 컬럼명 = "값"; # 전체 레코드에 동일한 값이 입력된다.
+
+UPDATE dept01
+SET mobile = 2312341234
+WHERE deptno = 10;
+
+UPDATE dept01
+SET mobile = 11111111111
+WHERE dname = 'SALES';
