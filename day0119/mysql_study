@@ -1,0 +1,179 @@
+* select 기본문법 (조건절, 정렬 등)
+
+문제1. 로그인한 후 사용 가능한 테이블을 확인하시오.
+show databases;
+
+문제2. 문제1에서 검색한 테이블의 구조를 각각 확인하여 보시오.
+desc emp;
+
+문제3. emp 테이블에서 ename,sal 컬럼을 검색하여 보시오.
+select ename, sal from emp;
+
+문제4. emp 테이블에서 ename, sal 컬럼을 검색하여 보시오. 
+단, sal 컬럼은 12를 곱하고 comm 컬럼을 더하여 출력하고 별칭을 "연 봉 출 력"이라고 출력하시오.
+select ename, (sal * 12 + IFNULL(comm, 0)) as '연봉출력' from emp;
+
+문제5. emp 테이블에서 job 컬럼을 중복행을 제거하여 검색하여 보시오.
+select distinct job from emp;
+
+문제6. emp 테이블에서 부서번호(deptno)가 20인 모든 컬럼을 검색하여 보시오.
+select * from emp where deptno = '20';
+
+문제7. emp 테이블에서 입사일(hiredate)이 1987년 1월 1일 이후에 입사한 사람의 모든 컬럼을 검색하여 보시오.
+select * from emp where hiredate > '1987-01-01';
+
+문제8. emp 테이블에서 이름(ename)이 'SMITH'인 사람의 모든 컬럼을 검색하여 보시오.
+select * from emp where ename = 'SMITH';
+
+문제9. emp 테이블에서 이름(ename)에 A가 들어가는 사람의 ename, sal, deptno 컬럼을 검색하여 보시오.
+select ename, sal, deptno from emp where ename like '%A%';
+
+문제10. emp 테이블에서 사원번호(empno)가 4로 끝나는 사람의 모든 컬럼을 검색하여 보시오.
+select * from emp where empno like '%4';
+
+문제11. emp 테이블에서 부서번호(DEPTNO)가 20만 제외하고 검색하시오.
+select * from emp where deptno != '20';
+
+문제12. emp 테이블에서 empno,ename,comm 컬럼을 검색하시오. 단, comm 컬럼이 300 또는 500인 것만 출력하시오.
+select empno, ename, comm from emp where comm = 300 or comm = 500;
+select empno, ename, comm from emp where comm in(300, 500);
+
+문제13. emp 테이블에서 ename,sal 컬럼을 검색하시오. 단, sal이 800~3000 사이만 출력하시오.
+select ename, sal from emp where sal > 800 and sal < 3000;
+
+문제14. emp 테이블에서 사원번호(empno)가 7788이고 이름(ename)이 'SCOTT'인 컬럼을 검색하시오.
+select * from emp where empno = 7788 and ename = 'SCOTT';
+
+문제15. emp 테이블에서 입사일(hiredate)이 1982년 1월 1일 이후 입사한 사원이거나 직급(job)이 'MANAGER'인 ename,hiredate,job 컬럼을 검색하시오.
+select ename, hiredate, job from emp where hiredate > '1982-01-01' or job = 'MANAGER';
+
+문제16. emp 테이블에서 ename,mgr 컬럼을 검색하시오. 단, mgr이 NULL인 것만 출력하시오.
+select ename, mgr from emp where mgr is null;
+
+문제17. dept 테이블에서 부서번호(deptno)가 10 또는 30인 모든 컬럼을 검색하고 deptno 컬럼을 내림차순 정렬하시오.
+select * from dept where deptno = 10 or deptno = 30 order by deptno desc;
+
+문제18. dept 테이블에서 지역(loc)명에 A가 들어가는 모든 컬럼을 검색하고 오름차순 정렬하시오.
+select * from dept where loc like '%A%' order by loc asc;
+
+문제19. salgrade 테이블에서 모든 컬럼을 출력하시오. 단, grade 컬럼은 내림차순 정렬하시오.
+select * from salgrade order by grade desc;
+
+문제20. salgrade 테이블에서 grade 컬럼이 3 또는 losal 컬럼이 2000이상인 모든 컬럼을 검색하시오.
+select * from salgrade where grade = 3 or losal >= 2000;
+
+문제21. salgrade 테이블에서 hisal 컬럼의 값이 1200~2500 사이의 모든 컬럼을 검색하시오.
+select * from salgrade where hisal >= 1200 and hisal <= 2500; 
+
+문제22. emp 테이블에서 empno,ename 컬럼을 ename에 A가 들어가는 사람만 제외하고 검색하시오.
+select empno, ename from emp where ename not like '%A%';
+
+문제23. emp 테이블에서 empno,sal,ename 컬럼을 검색하시오. 단, sal 컬럼을 내림차순으로 1차 정렬, ename 컬럼을 오름차순으로 2차 정렬하시오.
+select empno, sal, ename from emp order by sal desc, ename asc;
+
+문제24. emp 테이블에서 입사일이 1982년 1월 1일 이후에 입사한 사원이름(ename)과 입사일(hiredate)을 검색하여 보시오.
+select ename, hiredate from emp where hiredate > '1982-01-01';
+
+문제25. emp 테이블에서 사원명(ename)이 J로 시작하거나 사원번호(empno)가 7800이상인 컬럼을 검색하고 ename을 오름차순 정렬하시오.
+select * from emp where ename like 'J%' or empno >= 7800 order by ename asc;
+
+================================================================================================
+* select 기본문법 (MYSQL 함수, 집계함수)
+
+문제1. emp 테이블의 구조를 출력하여 보시오.
+desc emp;
+
+문제2. emp 테이블에서 mgr 컬럼이 짝수인 것을 검색하여 보시오.
+select * from emp where (mgr%2=0);
+select * from emp where mod(mgr, 2) = 0;
+
+문제3. emp 테이블에서 hiredate(입사일)가 87년인 사원수를 구하여 보시오.
+단,  별칭은 사원수로 한다.
+select count(*) as '사원수' from emp where year(hiredate)='1987';
+
+문제4. emp 테이블에서 comm 컬럼의 개수를 구하여 보시오. 단, 별칭은 개수로 한다.
+select count(comm) as '개수' from emp;
+
+문제5. emp 테이블에서 comm 컬럼의 합계를 구하여 보시오. 단, 별칭은 합계로 한다.
+select sum(ifnull(comm,0)) as '합계' from emp;
+
+문제6. 문제5에서 NULL값을 1로 변환하여 합계를 구하여 보시오. 단, 별칭은 합계로 한다.
+select sum(ifnull(comm,1)) as '합계' from emp;
+
+문제7. emp 테이블에서 sal(급여)의 합계를 구하여 보시오. 단, 별칭은 급여합계로 한다.
+select sum(sal) as '급여합계' from emp;
+
+문제8. emp 테이블에서 sal(급여)의 평균을 구하여 보시오. 단, 별칭은 급여평균으로 한다.
+select avg(sal) as '급여평균' from emp;
+
+문제9. emp 테이블에서 sal(급여)의 최대값을 구하여 보시오. 단, 별칭은 최대급여로 한다.
+select max(sal) as '최대급여' from emp;
+
+문제10. emp 테이블에서 sal(급여)의 최소값을 구하여 보시오. 단, 별칭은 최소급여로 한다.
+select min(sal) as '최대급여' from emp;
+
+문제11. emp 테이블에서 sal*12+comm(별칭 : 연봉합계)의 합계를 구하여 보시오.
+ select sum(sal*12+ifnull(comm,0)) as '연봉합계' from emp;
+
+문제12. emp 테이블에서 sal*12+comm(별칭 : 연봉평균)의 평균을 구하여 보시오.
+select avg(sal*12+ifnull(comm,0)) as '연봉합계' from emp;
+
+문제13. emp 테이블에서 comm 컬럼이 300 또는 500 또는 1400인 컬럼의 개수를 구하여 보시오. (별칭 : 개수)
+select count(*) as '개수' from emp where comm = 300 or comm = 500 or comm = 1400;
+
+문제14. emp 테이블에서 ename(이름)에 'A'가 들어가는 사원수를 구하여 보시오. (별칭 : 사원수)
+select count(*) as '사원수' from emp where ename like '%A%';
+
+문제15. emp 테이블에서 sal(급여)가 500에서 1400사이에 있는 사원수를 구하여 보시오. (별칭 : 사원수)
+select count(*) as '사원수' from emp where sal >= 500 and sal <= 1400;
+
+문제16. emp 테이블에서 job(직급)이 'CLERK'이고 deptno(부서번호)가 10인 사원수를 구하여 보시오. (별칭 : 사원수)
+select count(*) as '사원수' from emp where job = 'CLERK' and deptno = 10;
+
+문제17. emp 테이블에서 1982년 1월 1일 이후에 입사한 사원이거나 job(직급)이 'MANAGER'인 사원수를 구하여 보시오. (별칭 : 사원수)
+ select count(*) as '사원수' from emp where hiredate > '1982-01-01' or job = 'MANAGER';
+
+문제18. emp 테이블에서 ename(이름)의 세번째 자리가 'R'인 사원수를 구하여 보시오. (별칭 : 사원수)
+select count(*) as '사원수' from emp where ename like '__R%';
+
+문제19. emp 테이블에서 deptno(부서번호)가 30인 사원의 ename,sal,deptno 컬럼순으로 검색하여 보시오. 
+단, sal컬럼을 내림차순하여 출력하시오.
+select ename, sal, deptno from emp where deptno = 30 order by sal desc;
+
+문제20. dept 테이블에서 loc 컬럼의 데이터에 'A'가 들어가는  데이터의 개수를 출력하여 보시오. (별칭 : 개수)
+select count(*) as '개수' from dept where loc like '%A%';
+
+문제21. salgrade 테이블에서 losal 컬럼의 평균값을 구하여 보시오. 단, 별칭은 하위급여 평균이라고 하며 소수점 첫째자리까지 반올림 하시오.
+select round(avg(losal),1) as '하위급여 평균' from salgrade;
+
+문제22. salgrade 테이블에서 hisal 컬럼의 합계값을 구하여보시오. 단, 별칭은 상위급여 합계라고 하며 통화기호 $와 세자리마다 쉼표를 찍는다.
+select concat('$', format(sum(hisal), 0)) as '상위급여 합계' from salgrade;
+
+문제23. emp 테이블에서 empno가 홀수인 사원수를 구하여 보시오. 단, 별칭은 사원수로 한다.
+select count(*) as '사원수' from emp where (empno%2=1);
+
+문제24. emp 테이블에서 hiredate(입사일)이 1981년 5월 1일부터 11월 30일까지 입사한 사원수를 구하여 보시오. 
+단, 별칭은 사원수로 한다.
+select count(*) as '사원수' from emp where hiredate >= '1981-05-01' and hiredate <= '1981-11-30';
+
+문제25. emp 테이블에서 ename(이름)이 'S'로 시작하는 사원수를 구하여 보시오. 단, 별칭은 사원수로 한다.
+select count(*) as '사원수' from emp where ename like 'S%';
+
+문제26. emp 테이블에서 sal(급여)가 1500이상인 empno, ename, sal 컬럼순으로 출력하시오. 
+단, ename은 소문자로 변환하여 출력하시오.
+select empno, lower(ename) as 'ename', sal from emp where sal >= 1500;
+
+문제27. emp 테이블에서 mgr 컬럼을 묶어 comm(커미션) 개수, comm(커미션) 합계 순으로 출력하시오. 단, 별칭은 임의로 하며 NULL 값은 0으로 변환하여 계산하시오. 그리고, mgr 컬럼을 오름차순 정렬하시오.
+select mgr, count(comm) as '커미션 개수', sum(ifnull(comm,0)) as '커미션 합계' from emp group by mgr order by mgr asc;
+
+문제28. emp 테이블에서 deptno(부서번호)가 10은 '총무부', 20은 '개발부', 30은 영업부'라고 하여 ename,deptno,부서명 순으로 출력하여 보시오.
+select
+    ename, deptno,
+    case deptno
+        when 10 then '총무부'
+        when 20 then '개발부'
+        when 30 then '영업부'
+    end as '부서명'
+from emp;
+
+
