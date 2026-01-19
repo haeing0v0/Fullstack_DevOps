@@ -108,6 +108,82 @@ where deptno = (select deptno
 			from emp
 			where ename = 'SCOTT') and ename <> 'SCOTT';
 
+#DALLAS에서 근무하는 사원의 이름, 부서번호를 출력하세요.
+select ename, deptno
+from emp
+where deptno = (select deptno
+			from dept
+			where loc = 'DALLAS');
+
+#SALES(영업부) 부서에서 근무하는 모든 사원의 이름과 급여를 출력하세요.
+select ename, sal
+from emp
+where deptno = (select deptno
+			from dept
+			where dname = 'SALES');
+
+#자신의 직속상관이 KING인 사원의 이름과 급여를 출력하세요.
+select ename, sal
+from emp
+where mgr = (select empno
+			from emp
+			where ename = 'KING');
+
+#연봉을 3000이상 받는 사원이 소속된 부서번호, 사원이름, 연봉을 출력하세요.
+select deptno, ename, sal
+from emp
+where sal in (select sal      #다중 결과 처리(in 함수 사용)
+		from emp
+		where sal >= 3000);
+
+#부서별로 가장 급여가 많은 사람을 사원번호, 사원명, 급여, 부서번호로 출력하세요.
+select empno, ename, sal, deptno
+from emp
+where sal in (select max(sal)
+		from emp
+		group by deptno);
+
+#직급(Job)이 MANAGER인 사람이 속한 부서의 부서번호와 부서명과 지역을 출력하세요.
+select deptno, dname, loc
+from dept
+where deptno in (select deptno
+			from emp
+			where job = 'MANAGER');
+
+#30번 부서의 사원들 중에서 급여를 가장 많이받는 사원보다 
+더 많은 급여를 받는 사원의 이름과 급여를 출력하세요.
+
+select ename, sal
+from emp
+where sal > (select max(sal)
+		from emp
+		where deptno = 30);
+
+
+select ename, sal
+from emp
+where sal > (select max(sal)
+		from emp
+		group by deptno
+		having deptno = 30);
+
+검색결과가 다중행일 경우 처리 방법(ALL, ANY)
+ALL : 특정한 값이 아닌 범위로 비교연산처리, 서브쿼리에서 리턴된 모든 값이 만족해야 성립한다.
+ANY : 특정값이 아닌 범위로 비교연산처리하고, 서브쿼리에서 리턴된 어떤값이라도 만족하면 성립한다.
+
+select ename, sal
+from emp
+where sal > all (select max(sal)
+		from emp
+		group by deptno
+		having deptno = 30);
+
+select ename, sal
+from emp
+where sal > any (select max(sal)
+		from emp
+		group by deptno
+		having deptno = 30);
 
 
 
