@@ -1,0 +1,122 @@
+1. 조인(cross join, inner join, self join) : 1개 이상의 테이블을 합치는 것
+------------------------------------------------------------------------------
+select * 
+from dept, emp;      #cross join (행 * 행)
+---------------------------------------------------
+
+select ename, dname
+from emp, dept
+where emp.deptno = dept.deptno;  #inner join(common column)
+
+select ename, dname, dept.deptno
+from emp, dept
+where emp.deptno = dept.deptno;  #inner join(common column)
+
+#SCOTT이 근무하는 부서의 이름을 출력하세요.
+-----------join 모를때--------------------------------
+select ename, deptno
+from emp
+where ename = 'SCOTT';  #20번 부서를 알았다.
+
+select deptno, dname
+from dept
+where deptno = 20;
+
+---------join 알고 난 후--------------------------------------------
+----------------------------------------------------------------------
+inner join : 공통 컬럼 기준으로 조인됨
+-----------------------------------------------------------------------
+select ename, dname
+from emp, dept
+where emp.deptno = dept.deptno and emp.ename = 'SCOTT';
+
+--------테이블 이름을 별칭(alias)으로 사용, 단 from 절에서 별칭은 as 를 사용하지 않음-------
+select emp.ename, dept.dname
+from emp, dept;
+
+select e.ename, d.dname
+from emp e, dept d;
+--------------------------------------------------------------------------------------------------
+#뉴욕에서 근무하는 사람의 이름과 급여를 출력하세요.
+select e.ename, e.sal, d.loc
+from emp e, dept d
+where e.deptno = d.deptno and d.loc = 'NEW YORK';
+
+
+#ACCOUNTING 부서 소속의 사원의 이름과 입사일을 출력하세요.
+select e.ename, e.hiredate, d.dname
+from emp e, dept d
+where e.deptno = d.deptno and d.dname = 'ACCOUNTING';
+
+#직급이 MANAGER인 사원의 이름, 부서명을 출력하세요.
+select e.ename, d.dname, e.job
+from emp e, dept d
+where e.deptno=d.deptno and e.job='MANAGER';
+
+#salgrade 테이블에서 정보를 가져와서 각 사원의 급여 등급을 출력하세요.
+(사원이름, 급여, 등급)
+select e.ename, d.dname, e.sal, s.grade
+from emp  e, dept d, salgrade s
+where e.deptno = d.deptno and e.sal between s.losal and s.hisal;
+
+select e.ename, e.sal, s.grade
+from emp e, salgrade s
+where e.sal between s.losal and s.hisal;
+
+-------------------------------------------------------------
+self join : 찾고자 하는 데이터가 한 테이블 있을때 사용
+-------------------------------------------------------------
+#사원의 이름과 그 사원의 매니저 이름을 출력하세요.
+select e.ename as '사원명', m.ename as '매니저명'
+from emp e, emp m
+where e.mgr=m.empno;
+
+#매니저가 KING인 사원들의 이름과 직급을 출력하세요.
+select e.ename as '사원명', e.job as '직급'
+from emp e, emp m
+where e.mgr = m.empno and m.ename = 'KING';
+
+#SCOTT과 동일한 근무지에서 근무하는 사원의 이름을 출력하세요.
+select w.ename as '사원명', f.ename as '동료'
+from emp w, emp f
+where w.deptno = f.deptno and w.ename = 'SCOTT' and f.ename != 'SCOTT';
+========================================================
+--------------------------------------------------------------------------------------------------------
+서브쿼리 : 특정 테이블에서 검색한 결과를 다른 테이블에 전달해서 새로운 결과를 검색하는 것
+--------------------------------------------------------------------------------------------------------
+#SCOTT 이라는 사원이 소속되어 있는 부서의 이름을 출력하세요.
+select deptno
+from emp
+where ename = 'SCOTT';  #20번 부서
+
+select dname
+from dept
+where deptno = 20; #부서이름
+
+#서브쿼리 구현
+select dname  #결과 테이블
+from dept
+where deptno = (select deptno
+			from emp
+			where ename = 'SCOTT');  #검색 테이블
+
+#SCOTT과 동일한 근무지에서 근무하는 사원의 이름을 출력하세요.
+
+select ename, deptno
+from emp
+where deptno = (select deptno
+			from emp
+			where ename = 'SCOTT') and ename <> 'SCOTT';
+
+
+
+
+
+
+
+
+
+
+
+
+
