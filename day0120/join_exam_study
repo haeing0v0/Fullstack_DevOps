@@ -1,0 +1,69 @@
+* select 기본문법 (조인, 서브쿼리)
+
+문제1. 사원들의 사원번호(empno), 사원명(ename), 부서이름(dname)을 출력하시오. 단, 별칭은 임의로 하시오.
+select e.empno, e.ename, d.dname
+from emp e, dept d
+where e.deptno = d.deptno;
+
+select e.empno, e.ename, d.dname
+from emp e INNER JOIN dept d
+ON e.deptno = d.deptno;
+
+문제2. 사원들의 사원번호(empno), 사원명(ename), 급여(sal), 급여등급(grade)을 출력하시오. 단, 별칭은 임의로 하시오.
+select e.empno, e.ename, e.sal, s.grade
+from emp e, salgrade s
+where e.sal between s.losal and s.hisal;
+
+문제3. 사원들의 사원명(ename), 급여(sal), 부서명(dname), 급여등급(grade)을 출력하시오. 단, 별칭은 임의로 하시오. 사원명을 내림차순 정렬하시오.
+select e.ename, e.sal, d.dname, s.grade
+from emp e, dept d, salgrade s
+where e.deptno = d.deptno and e.sal between s.losal and s.hisal
+order by e.ename asc;
+
+문제4. 사원들의 사원명(ename), 급여(sal), 부서명(dname), 급여등급(grade)을 출력하시오. 단, 별칭은 임의로 하고 급여등급이 3등급 이상인 데이터만 출력하시오.
+select e.ename, e.sal, d.dname, s.grade
+from emp e, dept d, salgrade s
+where e.deptno = d.deptno and grade > 3 and e.sal between s.losal and s.hisal;
+
+문제5. 부서별로 부서명, 급여의 총액과 급여의 평균순으로 출력하여 보시오. 단, 별칭은 임의로 하고 평균은 소수점 둘째자리까지 구하시오.
+select d.dname as '부서명', sum(e.sal) as '급여총액', round(avg(e.sal), 2) as '급여평균'
+from emp e, dept d
+where e.deptno = d.deptno
+group by d.dname;
+
+문제6. 뉴욕(NEW YORK)에서 근무하는 사원의 이름과 급여를 출력하여 보시오.
+select e.ename, e.sal, d.loc
+from emp e, dept d
+where e.deptno = d.deptno and d.loc = 'NEW YORK';
+
+문제7. 'SCOTT'과 동일한 근무지에서 근무하는 사원의 이름을 구하여 보시오.
+select e.ename, d.loc
+from emp e, dept d
+where e.deptno = d.deptno and e.deptno = (select e. deptno from emp e where e.ename = 'SCOTT') and ename <> 'SCOTT';
+
+문제8. 'ACCOUNTING' 부서 소속의 사원명과 입사일을 출력하여 보시오.
+select e.ename, e.hiredate, d.dname
+from emp e, dept d
+where e.deptno = d.deptno and d.dname = 'ACCOUNTING';
+
+문제9. 직급(job)이 'SALESMAN'인 사원이 받는 급여(sal) 중 최대급여보다 많이 받는 사원들의 이름과 급여를 출력하여 보시오.
+select e.ename, e.sal, e.job
+from emp e
+where e.job = 'SALESMAN' and sal > (select max(sal) from emp);
+
+문제10. 부서번호(deptno)가 30인 사원들의 이름(ename), 직급(job), 부서번호(deptno), 부서위치(loc)를 출력하여 보시오. 
+select e.ename, e.job, e.deptno, d.loc
+from emp e, dept d
+where e.deptno = d.deptno and e.deptno = 30;
+
+문제11. 이름이 'SMITH'와 동일한 직급(job)을 가진 사원의 이름(ename)과 직급(job)을 출력하여 보시오.
+select e.ename, e.job
+from emp e
+where job = (select job from emp where ename = 'SMITH') and ename <> 'SMITH';
+
+문제12. 부서별로 부서번호, 급여(sal)의 최대값과 최소값을 구하되 최대급여가 2900이상인 부서번호, 최대급여, 최소급여 순으로 출력하여 보시오. 단, 별칭은 임의로 하시오.
+select e.deptno, max(e.sal), min(e.sal)
+from emp e
+group by e.deptno
+having max(e.sal) >= 2900;
+
