@@ -1,0 +1,21 @@
+문제1. cloud01 사용자가 dept 테이블과 emp테이블을 조회할 수 있도록 권한을 부여하시오.
+create user cloud01@localhost identified by '1111';
+grant select on cloud.dept to cloud01@localhost;
+grant select on cloud.emp to cloud01@localhost;
+
+문제2. cloud01 사용자로 접속하시오.
+mysql -ucloud01 -p
+passward : **** => 1111
+
+문제3. 문제1에서 권한을 받은 dept 테이블과 emp테이블을 검색하여 보시오.
+select * from emp;
+select * from dept;
+
+문제4. 현재 접속된 사용자를 확인하여 보시오.
+select user();
+from dual (생략가능)
+
+문제5. 문제1에서 권한을 받은 dept 테이블의 권한을 회수해오고 확인하여 보시오.
+revoke select on cloud.dept from cloud01@localhost;
+revoke select on cloud.emp from cloud01@localhost;
+

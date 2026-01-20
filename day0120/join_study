@@ -1,0 +1,107 @@
+1. DDL 쿼리 활용한 DB 생성, Table 생성을 한다.
+2. DML 쿼리로 데이터를 삽입, 수정, 삭제, 검색을 한다.
+3. DML 쿼리로 테이블 JOIN, Sub Query를 사용해서 데이터를 검색한다.
+========================================== 
+4. 절에 대해
+select 절 : 컬럼 이름 작성
+from 절 : 테이블 이름 작성
+where 절 : 범위 제약
+order by 절 : 데이터 정렬(asc, desc)
+group by 절 : sum(), max(), min(), avg() 등 그룹함수를 사용할때 작성
+having 절 : 그룹에 대한 범위 제약
+===============================================
+5. 서브 쿼리(테이블 복제)
+create table dept01  #테이블 복제를 하면 제약 조건이 제거된다.
+as
+select * from dept;
+
+
+create table dept02
+as 
+select deptno, dname  # 테이블 복제할때 원하는 컬럼 정보를 선택한다.
+from dept;
+
+create table dept03
+as 
+select * from dept
+where 0>1; #범위 제약 조건의 결과 값을 false로 주면 레코드 값을 제외하고 컬럼만 복제한다.
+
+6. 테이블에 제약 조건 추가 (DDL 명령 : alter)
+#dept01 테이블의 deptno 컬럼에 pk 제약 조건 추가
+alter table dept01
+add constraint dept01_deptno_pk primary key(deptno);
+
+alter table dept01
+drop primary key;
+
+7. 테이블 이름 변경(rename)
+rename table dept03 to dept05;
+================================================================
+* DCL (Data Control Language)
+grant --> 데이터베이스 사용자 권한 부여
+revoke --> 데이터베이스 사용자 권한 회수
+
+* TCL (Transaction Control Language)
+commit --> 트랜잭션을 완료하여 데이터 변경사항을 최종 반영하는 명령어
+rollback --> 데이터 변경사항을 이전 상태로 되돌리는 명령어
+=================================================================
+8. 사용자 계정 추가 및 권한 설정
+사용자 확인 : use mysql;
+user 테이블 구조 확인 : desc user;
+데이터 검색 : SELECT HOST, USER, password_expired  
+		  FROM USER;
+
+9. 사용자 추가(DDL 사용)
+create user 사용자ID@localhost identified by '비밀번호';
+※ information_schema DB의 사용권한과 테이블 검색 권한이 있다.
+사용계정을 생성할때 사용자에 대한 계정에 외부 접근 권한을 부여하려면(HOST에 '%'를 부여한다.)
+create user hong@localhost identified by '1111';
+
+내부 사용자 권한 확인
+show grants for 사용자ID@localhost;  #root계정으로 확인
+
+show grants for hong@localhost;
+
+#===새 터미널을 열고=======
+hong 사용자 접속
+mysql -uhong -p
+password : 1111
+
+select user();
+
+사용자에게 데이터베이스 사용권한 부여(DCL 명령 : grant)
+모든 권한(ALL) : GRANT ALL PRIVILEGES on DB명.테이블명 to 계정아이디@localhost;
+grant all privileges on cloud.dept01 to hong@localhost;
+
+부분권한을 주기 위한 설정
+grant insert, delete on cloud.dept02 to hong@localhost;
+
+권한추가(select)
+grant select, insert, delete on cloud.dept02 to hong@localhost;  #권한이 덮어쓰기 된다.
+
+변경된 내용을 메모리에 저장한다.
+flush privileges;
+
+GRANT 명령어에서 적용된 권한을 해제해 주는 REVOKE 명령어 사용
+전체 권한 해제
+REVOKE ALL on DB이름.테이블이름 from 사용자ID@localhost;
+내부사용자 권한해제
+revoke all on cloud.dept01 from hong@localhost;
+
+revoke all on cloud.* from hong@localhost; #ERROR 1141 (42000): There is no such grant defined for user 오류는 지정된 권한이 정확히 일치하지 않는다는 메세지이다.
+
+revoke select, insert, delete on cloud.dept02 from hong@localhost; #grant 지정 조건 그대로 revoke한다.
+
+
+사용자 삭제
+drop user '사용자ID'@localhost;
+drop user 'hong'@localhost;
+
+
+
+
+
+
+
+
+
