@@ -1,0 +1,497 @@
+객체 : 테이블(Table), 뷰(View), 인덱스(Index), 트리거(Trigger), 저장 프로시저(Stored Procedure)
+
+1. 뷰(View) : 가상테이블로 실제는 존재하지 않지만 테이블처럼 사용한다.
+뷰(view) 테이블 생성 
+create view 뷰이름
+
+복제 테이블 : customers01 생성
+create table customers01
+as
+select * from customers;
+
+뷰 만들기
+create view view_customer
+as 
+select cust_name, cust_address, cust_city
+from customers01;
+
+뷰 생성 확인
+show tables;
+
+뷰 구조확인
+desc 뷰이름;
+
+뷰 데이터 조회
+select * from customers_view;
+
+뷰 테이블 삭제
+drop view 뷰이름;
+
+=======================================
+1. 고객의 이름과 총 주문 횟수를 확인하는 뷰
+create view view_customerOrderCount
+as
+select c.cust_name, count(o.order_num) as total_orders
+from customers c
+left join orders o on c.cust_id = o.cust_id
+group by c.cust_name;
+ 
+2. 주문번호, 제품명, 수량, 가격을 확인하는 뷰
+참조 테이블 : orderitems, products
+뷰 이름 : view_OrderDetailInfo
+create view view_OrderDetailInfo
+as
+select oi.order_num, p.prod_name, oi.quantity, oi.item_price
+from orderitems oi join products p
+on oi.prod_id = p.prod_id;
+
+3. 주문별 총 결제 금액 뷰(매출확인): 각 주문 번호당 총액(수량 * 단가) => total_amount
+참조 테이블 : orderitems
+뷰 이름 : view_OrderTotalAmount
+
+create view view_OrderTotalAmount
+as
+select order_num, sum(quantity * item_price) as 'total_amount'
+from orderitems
+group by order_num;
+
+4. 미국 거주 고객 뷰
+참조 테이블 : Customers 
+뷰 이름 : view_UsaCustomers
+
+create view view_UsaCustomers
+as
+select cust_id, cust_name, cust_email, cust_contact
+from customers
+where cust_country = 'USA';
+
+5. 제품별 판매 실적 뷰
+참조 테이블 : Products, OrderItems
+뷰 이름 : view_productSalesPerformance
+
+create view view_productSalesPerformance
+as
+select p.prod_name, sum(oi.quantity) as total_sold
+from products p left join orderitems oi
+on p.prod_id = oi.prod_id
+group by p.prod_name;
+
+6. 판매자별 취급 제품 목록 뷰(공급업체(Vendor)가 어떤 제품을 납품하는지 확인)
+참조 테이블 : Products, Vendors
+뷰 이름 : view_VendorProductList
+
+create view view_VendorProductList
+as 
+select v.vend_name, p.prod_name, p.prod_price
+from vendors v join products p
+on v.vend_id = p.vend_id;
+
+7. 최근 주문 현황 뷰(주문 날짜순 정렬)
+참조 테이블 : Orders, Customers 
+뷰 이름 : view_RecentOrders
+
+create view view_RecentOrders
+as
+select o.order_num, o.order_date, c.cust_name
+from orders o join customers c
+on o.cust_id = c.cust_id
+order by o.order_date desc;
+
+
+
+8. 미주문 고객 명단 뷰(가입했지만 한번도 주문 하지 않은 고객 : 마케팅 대상)
+참조 테이블 : Orders, Customers 
+뷰 이름 : view_CustomerNoOrders
+
+create view view_CustomerNoOrders
+as
+select cust_name, cust_email, cust_contact
+from customers
+where cust_id not in(select cust_id
+				from orders);
+
+9. 고가 제품 목록 뷰(프리미엄 제품 관리)
+참조 테이블 : Products 
+뷰 이름 : view_ExpensiveProducts
+
+create view view_ExpensiveProducts
+as
+select prod_name, prod_price
+from products
+where prod_price > (select avg(prod_price) 
+				from products);
+
+10. 고객 배송지 정보 뷰(이메일, 연락처등의 개인정보 제외, 배송에 필요한 주소만 노출)
+참조 테이블 : Customers 
+뷰 이름 : view_CustomerShippingAddress
+
+create view view_CustomerShippingAddress
+as
+select cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country
+from customers;
+
+================================================
+인덱스(Index) : 검색을 빠르게 한다.
+기본키(Primary Key) : DDL에서 not null로 정의된 cust_id, order_num, prod_id, vend_id 등은 보통 테이블을 생성할때 관리목적으로 기본키로 지정한다.
+※ 기본키는 DB가 자동으로 인덱스를 생성한다.
+인덱스가 너무 많으면 insert, update, delete 성능이 저하된다. 조회가 빈번한 컬럼에만 전략적으로 생성한다.
+예를 들면 '성별'처럼 값의 종류가 적은 컬럼보다는 '이메일'이나 '이름'처럼 값의 종류가 다양한 컬럼에 인덱스를 적용하는 것이 효율적이다.
+
+인덱스 생성
+create index 인덱스명 on 테이블명(컬럼명);
+create index idx_customer on customers(cust_email);
+
+인덱스 조회
+show index from 테이블명;
+show index from customers;
+
+인덱스 동작확인
+explain 검색쿼리(select) 제약조건(where);
+explain select * from customers;
+
+인덱스 추가
+alter table 테이블명 add index 새로운인덱스명(컬럼명1, 컬럼명2..)
+alter table customers add index idx_customer1(cust_name);
+
+인덱스 삭제
+alter table 테이블명 drop index 인덱스명;
+alter table customers drop index idx_customer;
+alter table customers drop index idx_customer1;
+
+==================================================
+
+1. 고객 이메일 검색 최적화(Unique Index)
+create unique index idx_cust_email
+on customers(cust_email);
+
+2. 주문 날짜 정렬 인덱스
+create index idx_order_date
+on orders(order_date);
+
+3. 제품 가격 범위 검색 인덱스(필터링이 자주발생 할때 사용)
+create index idx_prod_price 
+on products(prod_price);
+
+=================================================
+트리거(Trigger) : insert, update, delete문이 실행될때 수행이 되는 프로시저, 트리거는 뷰에 대해서 정의하는 것이 아니라 테이블에서만 정의한다.
+
+구분자(delimiter) : delimiter // ==> delimiter ;
+
+create trigger 트리거명
+	시점 on 연결할 테이블명
+	for each row
+begin
+	실행문장;  #delimiter //를 사용하는 이유
+end //
+
+delimiter ;
+
+#트리거 확인
+show triggers;
+
+#트리거 삭제	
+drop trigger 트리거명;
+
+
+트리거실행 : insert, update, delete를 중에 실행한다.
+
+------------------------------------------------------------
+create table member(
+	id varchar(20),
+	pwd varchar(20),
+	addr varchar(50),
+	tel varchar(15)
+);
+
+insert into member(id,pwd,addr,tel) values('tg06','1111','부산','010-1234-5678');
+insert into member(id,pwd,addr,tel) values('tg07','2222','서울','010-2345-5678');
+
+create table backup(
+	num int primary key auto_increment,
+	id varchar(20) not null,
+	pwd varchar(20) not null,
+	addr varchar(50),
+	tel char(13),
+	mtype varchar(10),
+	mdate date,
+	muser varchar(20)
+);
+
+---------------------------------------
+트리거 생성 실습
+delimiter //
+
+create trigger trg_backupInsert
+	after update on member
+	for each row
+begin
+	insert into backup(id, pwd, addr, tel, mtype, mdate, muser) values(OLD.id, OLD.pwd, OLD.addr, OLD.tel, '수정', curdate(), current_user());
+end //
+
+delimiter ;
+
+#트리거 실행
+update member
+set addr = '대전'
+where id = 'tg07';
+
+#결과확인
+select * from backup;
+
+delimiter //
+create trigger trg_deleteMsg
+	after delete on member  #member 테이블의 레코드 삭제 후 발생 
+	for each row  # 각 행마다 적용
+begin
+	set @msg="삭제 트리거 발생";	
+end //
+delimiter ;
+
+#트리거 실행
+delete
+from member
+where id = 'tg07';
+
+select @msg;
+---------------------------------------
+실습1. 입력 데이터 대문자 변환(Vendors) : 공급업체 등록할때 국가코드(vend_country)를 대문자로 변환저장
+트리거명 : trg_uppercase_country
+
+delimiter //
+create trigger trg_uppercase_country
+	before insert on Vendors
+	for each row
+begin
+	set new.vend_country = upper(new.vend_country);
+end //
+
+delimiter ;
+
+#트리거 실행
+INSERT INTO Vendors(vend_id, vend_name, vend_address, vend_city, vend_state, vend_zip, vend_country)
+VALUES('kor01','kh edu Inc.','555 High Street','busan','ca','12345', 'korea');
+
+#결과확인
+select * from vendors;
+
+실습2. 제품 가격 변동 이력 기록(Products) : 제품 가격이 변경 될때마다 기존 가격과 새 가격을 로그 테이블(PriceHistory)로 기록
+트리거명 : trg_log_price_change
+이벤트 : Products 테이블이 수정된 후
+로그테이블명 : PriceHistory ==> 컬럼명(prod_id, old_price, new_price, change_date);
+#트리거 생성
+delimiter //
+create trigger trg_log_price_change
+	after update on products
+	for each row
+begin
+	if OLD.prod_price <> NEW.prod_price then
+		insert into PriceHistory(prod_id, old_price, new_price, change_date) values (OLD.prod_id, OLD.prod_price, NEW.prod_price, NOW());
+	end if;
+end //
+delimiter ;
+#트리거 실행
+update Products
+set prod_price = 15.99  #기존 11.99
+where prod_id = 'BR03';
+
+#로그테이블
+create table PriceHistory(
+	prod_id char(10) NOT NULL ,
+	old_price decimal(8,2)  NOT NULL ,
+	new_price decimal(8,2)  NOT NULL ,
+	change_date datetime NOT NULL 
+);
+
+#결과확인
+select * from PriceHistory;
+
+========================================
+set autocommit = 0;
+select @@autocommit;
+
+1. 주문시 주문번호 유효성 검사 : 존재하지 않는 고객ID로 주문을 하면 방지한다.
+SIGNAL SQLSTATE '45000'
+트리거명 : trg_before_order_insert
+사용테이블 : Orders, Customers
+
+delimiter //
+create trigger trg_before_order_insert
+	before insert on orders
+	for each row
+begin
+	if (select count(*) from customers where cust_id = NEW.cust_id) = 0 then
+		SIGNAL SQLSTATE '45000' set message_text = '존재하지 않는 고객 ID입니다.';  #에러메세지 알림 내용
+	end if;
+end //
+	
+delimiter ;
+
+#실행코드
+insert into orders values(20001, '2026-01-22', 'INVALID_ID');
+
+2. 주문 상품 추가 시 단가 자동 입력 : OrderItems에 값을 넣을때 Product 테이블의 현재 가격을 자동으로 가져온다.
+트리거명 : trg_set_itemPrice
+사용테이블 : OrderItems, Product
+delimiter //
+
+create trigger trg_set_itemPrice
+	before insert on orderitems
+	for each row
+begin
+	set new.item_price = (select prod_price from products where prod_id = new.prod_id);
+end //
+
+delimiter ;
+
+#실행코드 : INSERT INTO OrderItems(order_num, order_item, prod_id, quantity, item_price)
+VALUES(20006, 4, 'BR01', 100, 10.49);
+
+3. 제품 가격 변경 이력 기록(감사로그) : 제품 가격이 변경될 때 이전 가격과 변경 시간을 로그 테이블에 기록한다.
+트리거명 : trg_price_date_change 
+사용테이블 : Products
+로그테이블(직접생성) : 테이블 명 : PriceLog, 컬럼(prod_id, old_price, new_price, change_date) ==> Products 테이블 컬럼 참조
+
+delimiter //
+
+create trigger trg_price_date_change
+	after update on products
+	for each row
+begin
+	if(OLD.prod_price <> NEW.prod_price) then
+		insert into PriceLog(prod_id, old_price, new_price, change_date) values(OLD.prod_id, OLD.prod_price, NEW.prod_price, NOW());
+	end if;	
+end //
+
+delimiter ;
+
+CREATE TABLE PriceLog
+(
+  prod_id    char(10)      NOT NULL ,
+  old_price decimal(8,2)  NOT NULL ,
+  new_price decimal(8,2)  NOT NULL ,
+  change_date datetime NOT NULL 
+);
+
+#실행코드 : update products set prod_price = 20.00 where prod_id = 'BR03';
+#결과 확인 : select * from pricelog;
+
+
+4. 고객 삭제 시 관련 주문 자동 삭제(연쇄 삭제) : 고객이 삭제되면 해당 고객의 모든 주문 내역을 함께 삭제한다.
+트리거명 : trg_customer_del
+사용테이블 : Customers, Orders
+
+delimiter //
+
+create trigger trg_customer_del
+	after delete on customers
+	for each row
+begin
+	delete from orders where cust_id = OLD.cust_id;
+end //
+
+delimiter ;
+
+
+#실행코드 : delete from customers where cust_id = '1000000001';  #참조키 : 부모테이블 먼저 삭제할수 없다. 자식 테이블로 인해 삭제 안됨.
+
+5. 이메일 형식 검사 : 고객 가입시 이메일에 '@' 기호가 포함되어 있는지 확인합니다.
+트리거명 : trg_check_email_format
+사용테이블 : Customers
+
+delimiter //
+
+create trigger trg_check_email_format
+	before insert on customers
+	for each row
+begin
+	if(NEW.cust_email not like '%@%') then
+		set NEW.cust_email = 'INVALID_EMAIL';	
+	end if;
+end //
+
+delimiter ;
+
+#실행코드 : INSERT INTO Customers(cust_id, cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email)
+VALUES('1000000006', 'KDOLL', '1 Bumne Place', 'Busan', 'IN', '42222', 'KOREA', 'hong kil dong', 'hong.org');
+
+#결과확인 : select * from customers where cust_name = 'KDOLL';
+
+6. 주문 취소 시 하위 품목 자동 삭제 : Orders 테이블에서 주문이 삭제되면 OrderItems의 상세 내역도 삭제합니다.
+트리거명 : trg_delete_orderItem
+사용테이블 : Orders, OrderItems
+#실습을 위해 서브쿼리로 테이블(orders01, orderitems01) 복제해서 사용.
+delimiter //
+
+create trigger trg_delete_orderItem02
+	before delete on orders
+	for each row
+begin
+	delete from orderitems where order_num = OLD.order_num;
+end //
+
+delimiter ;
+
+#실행코드 : delete from orders where order_num = 20005;
+
+7. 공급업체 국가 기본값 설정 : 국가(vend_country)가 입력되지 않았을 경우 기본값 'KOREA'를 지정한다.
+트리거명 : trg_default_vendor_country
+사용테이블 : Vendors
+
+delimiter //
+
+create trigger trg_default_vendor_country
+	before insert on vendors
+	for each row
+begin
+	if(NEW.vend_country is null) then
+		set NEW.vend_country = 'KOREA';
+	end if;
+end //
+
+delimiter ;
+
+#실행코드 : insert into vendors(vend_id, vend_name) values('KDD01', 'KPOP HOUSE Inc.');
+
+#결과확인 : select * from vendors where vend_id = 'KDD01';
+
+8. 주문 업데이트 시 날짜 갱신 : 주문 정보가 수정될때 order_date를 현재 시간으로 변경한다.
+트리거명 : trg_update_orderDate
+사용테이블 : Orders 
+
+delimiter //
+
+create trigger trg_update_orderDate
+	before update on orders
+	for each row
+begin
+	set NEW.order_date = NOW();
+end //
+
+delimiter ;
+
+#실행코드 : update orders set cust_id = '1000000004' where order_num = 20007;
+
+9. 최소 주문 수량 제한 : 주문 수량이 0 이하로 입력되는 것을 방지하고 최소 1개로 설정한다.
+트리거명 : trg_min_quantity_check
+사용테이블 : OrderItems
+
+delimiter //
+
+create trigger trg_min_quantity_check
+	before insert on orderitems
+	for each row
+begin
+	if(NEW.quantity <= 0) then
+		set NEW.quantity = 1;
+	end if;
+end //
+
+delimiter ;
+
+#실행코드 : INSERT INTO OrderItems(order_num, order_item, prod_id, quantity, item_price)
+VALUES(20007, 6, 'BNBG03', -5, 2.49);
+
+
+
+
+
