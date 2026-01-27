@@ -11,9 +11,6 @@ import mysqlexam.dto.CustomerDTO;
 
 public class CustomerDAO {
 
-    /* =======================
-     * SELECT (전체 조회)
-     * ======================= */
     public List<CustomerDTO> select() {
 
         List<CustomerDTO> list = new ArrayList<>();
