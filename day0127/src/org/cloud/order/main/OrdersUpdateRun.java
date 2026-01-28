@@ -1,5 +1,7 @@
 package org.cloud.order.main;
 
+import java.time.LocalDateTime;
+
 import org.cloud.order.dao.OrdersDAO;
 import org.cloud.order.dto.OrdersDTO;
 
@@ -10,7 +12,7 @@ public class OrdersUpdateRun {
         OrdersDAO dao = new OrdersDAO();
 
         OrdersDTO dto = new OrdersDTO();    
-        dto.setOrder_date("2004-03-28");    
+        dto.setOrder_date(LocalDateTime.of(2004, 3, 28, 0, 0));    
         dto.setCust_id("1000000005");  
         dto.setOrder_num(20010);
 

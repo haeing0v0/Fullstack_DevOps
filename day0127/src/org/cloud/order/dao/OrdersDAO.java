@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,6 +130,50 @@ public class OrdersDAO {
 
         return result;
     }
+	
+	public List<OrdersDTO> search(OrdersDTO dto) {
+
+	    List<OrdersDTO> list = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    String query = "";
+
+	    try {
+	        conn = DBUtil.getConnection();
+
+	        // 주문번호 검색
+	        if (dto.getOrder_num() != 0) {
+	            query = "SELECT * FROM orders WHERE order_num = ?";
+	            pstmt = conn.prepareStatement(query);
+	            pstmt.setInt(1, dto.getOrder_num());
+
+	        // 주문날짜 검색
+	        } else if (dto.getOrder_date() != null) {
+	            query = "SELECT * FROM orders WHERE order_date = ?";
+	            pstmt = conn.prepareStatement(query);
+	            pstmt.setTimestamp(1, Timestamp.valueOf(dto.getOrder_date()));
+	        }
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            OrdersDTO resultDto = new OrdersDTO();
+	            resultDto.setOrder_num(rs.getInt("order_num"));
+	            resultDto.setOrder_date(rs.getTimestamp("order_date").toLocalDateTime());
+	            resultDto.setCust_id(rs.getString("cust_id"));
+	            list.add(resultDto);
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(conn, pstmt, rs);
+	    }
+
+	    return list;
+	}
 
 	private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
