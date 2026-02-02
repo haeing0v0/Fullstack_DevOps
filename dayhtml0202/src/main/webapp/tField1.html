@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>레드향 주문하기</title>
+</head>
+<body>
+	<h1>레드향 주문하기</h1>
+	<form action="#" method="get">
+		<fieldset>
+			<legend>상품 선택</legend>
+			<p><b>주문할 상품을 선택해 주세요.</b></p>
+			<ul>
+				<li>
+					<label>
+						<input type="checkbox" name="prod" value="s_3" checked>선물용 3kg
+						<input type="number" min="0" max="10" value="1">개 (최대 10개)
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="prod" value="s_5">선물용 5kg
+						<input type="number" min="0" max="10" value="1">개 (최대 10개)
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="prod" value="f_3">가정용 3kg
+						<input type="number" min="0" max="10" value="1">개 (최대 10개)
+						</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="prod" value="f_5">가정용 5kg
+						<input type="number" min="0" max="10" value="1">개 (최대 10개)
+					</label>
+				</li>
+			</ul>
+			<p><b>포장 선택</b></p>
+			<ul>
+				<li>
+					<label>
+						<input type="radio" name="gift" value="yes">선물 포장
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio" name="gift" value="no">선물 포장 안함
+					</label>
+				</li>
+			</ul>
+		</fieldset>
+		<fieldset>
+			<legend>배송 정보</legend>
+			<ul>
+				<li>
+					<label for="name" id="name">이름</label>
+					<input type="text" id="name" name="name">
+				</li>
+				<li>
+					<label for="addr" id="addr">배송 주소</label>
+					<input type="text" id="addr" name="addr">
+				</li>
+				<li>
+					<label for="mail" id="mail">이메일</label>
+					<input type="email" id="email" name="email">
+				</li>
+				<li>
+					<label for="tel" id="tel">연락처</label>
+					<input type="tel" id="tel" name="tel">
+				</li>
+				<li>
+					<input type="submit" value="확인">
+				</li>				
+			</ul>
+		</fieldset>
+	</form>
+</body>
+</html>

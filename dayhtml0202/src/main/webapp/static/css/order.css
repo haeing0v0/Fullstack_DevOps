@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#container {
+	width: 480px;
+	margin: 40px auto;
+}
+
+h1 {
+	font-size: 2em;
+	margin: 10px;
+}
+
+fieldset {
+	padding: 15px;
+}
+
+fieldset legend {
+	font-weight: bold;
+}
+
+ul {
+	list-style: none;
+	padding-left: 0px;
+}
+
+li {
+	margin: 10px;
+}
+
+#shipping li label {
+	width: 80px;
+	float: left;
+	text-align: left;
+}
+
+input[type="text"], [type="tel"], [type="email"] {
+	width: 300px;
+}
+
+form > div {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-around;
+}
+
+form > div > input[type="submit"], input[type="reset"] {
+	text-align: center;
+	width: 150px;
+	height: 40px;
+	background-color: #fafafa;
+	border: 1px solid #cccccc;
+	box-shadow: 1px 1px 3px #cccccc;
+}
+
