@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title> <!--p164로 만든다. 외부스타일사용-->
+<link rel="stylesheet" href="static/css/register1.css">
+</head>
+<body>
+	<div id="container">
+		<h1>회원 가입을 환영합니다</h1>
+		<form action="#" method="get" onsubmit="return validate()">
+			<fieldset>
+				<legend>사용자 정보</legend>
+				<ul>
+					<li>
+						<label for="id">아이디</label>
+						<input type="text" id="id" name="id" autofocus placeholder="4자 ~ 10자 사이, 공백없이" required>
+					</li>
+					<li>
+						<label for="email">이메일</label>
+						<input type="text" id="email" name="email" required>
+					</li>
+					<li>
+						<label for="pwd1">비밀번호</label>
+						<input type="text" id="pwd1" name="pwd1" required placeholder="문자와 숫자, 특수 기호 포함">
+					</li>
+					<li>
+						<label for="pwd2">비밀번호 확인</label>
+						<input type="password" id="pwd2" name="pwd2" required>
+					</li>
+					
+					<li>
+						<label for="path">가입 경로</label>
+						<select id="path" required>
+							<option value="">선택해주세요</option>
+							<option value="blog">블로그</option>
+							<option value="search">검색</option>
+							<option value="sns">SNS</option>
+							<option value="etc">기타</option>
+						</select>
+					</li>
+					<li>
+						<label for="memo">메모</label>
+						<textarea id="memo" cols="40" rows="4" placeholder="남길 말씀이 있다면 여기에" name="memo"></textarea>
+					</li>
+				</ul>
+			</fieldset>
+			
+			<fieldset>
+				<legend>이벤트와 새로운 소식</legend>
+				<input type="radio" name="mailing" id="mailingYes" value="yes" required>
+				<label for="mailingYes">메일 수신</label>
+				<input type="radio" name="mailing" id="mailingNo" value="no">
+				<label for="mailingNo">메일 수신 안함</label>
+			</fieldset>
+			<div id="buttons">
+				<input type="submit" value="가입하기">
+				<input type="reset" value="취소">
+			</div>
+		</form>
+		
+	</div>
+	
+	<script>
+		function validate() {
+    		const id = document.getElementById('id');
+    		const email = document.getElementById('email');
+    		const pwd1 = document.getElementById('pwd1');
+    		const pwd2 = document.getElementById('pwd2');
+    		const path = document.getElementById('path');
+    		const memo = document.getElementById('memo');
+    		const mailing = document.getElementsByName('mailing');
+    		
+    		const idReg = /^[a-zA-Z0-9]{4,10}$/;
+    		const spaceReg = /\s/g;
+    		if(!idReg.test(id.value)){
+    			alert("아이디는 공백없이 4~10자 사이의 영문 또는 숫자여야 합니다.");
+    			id.focus();
+    			return false;
+    		}
+    		if(spaceReg.test(id.value)){
+    			alert("아이디는 공백없이 4~10자 사이의 영문 또는 숫자여야 합니다.");
+    			id.focus();
+    			return false;
+    		}
+    		
+    		const emailReg =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
+    		if(!emailReg.test(email.value)){
+    			alert("올바른 이메일 형식이 아닙니다.");
+    			email.focus();
+    			return false;
+    		}
+    		
+    		const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    		if(!pwdReg.test(pwd1.value)){
+    			alert("비밀번호는 문자와 숫자, 특수 기호를 모두 포함해야 합니다.");
+    			pwd1.focus();
+    			return false;
+    		}
+    		
+    		if(pwd1.value !== pwd2.value){
+    		    alert("비밀번호가 일치하지 않습니다.");
+    			pwd2.focus();
+    			return false;
+    		}
+    		
+    		if(path.value === ""){
+    		    alert("가입 경로를 선택해 주세요..");
+    			path.focus();
+    			return false;
+    		}
+    		
+    		if(path.value === "etc"){
+    			const memoReg = /^[가-힣a-zA-Z]{2,}$/;
+    			if(!memoReg.test(memo.value)){
+    				alert("가입경로를 '기타'로 선택하신 경우, 메모에 2자 이상의 내용을 남겨주세요.");
+    				memo.focus();
+    				return false;	
+    			}
+    		}
+    		
+    		let isSelected = false;
+    		for(let i = 0; i < mailing.length; i++){
+    			if(mailing[i].checked){
+    				isSelected = true;
+    				break;
+    			}
+    		}
+    		
+    		if(!isSelected){
+    			alert("메일 수신 여부를 선택해 주세요");
+    			mailing[0].focus();
+    			return false;
+    		}
+    		
+    		alert("가입완료!!");
+    		return true;
+		}	
+	</script>
+</body>
+</html>
+
+
+
+
+
