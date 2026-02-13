@@ -1,5 +1,5 @@
 {
-  "name": "ch03_1",
+  "name": "ch03_2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -45,7 +45,12 @@
     ]
   },
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/chance": "^1.1.7",
-    "@types/luxon": "^3.7.1"
+    "@types/luxon": "^3.7.1",
+    "autoprefixer": "^10.4.24",
+    "daisyui": "^5.5.18",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19"
   }
 }
