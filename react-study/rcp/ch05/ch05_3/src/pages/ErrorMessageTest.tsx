@@ -1,8 +1,33 @@
-export default function CopyMe() {
+import {useCallback} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import type {AppState} from '../store'
+import {Title} from '../components'
+import {Button} from '../theme/daisyui'
+import * as D from '../data'
+import * as E from '../store/errorMessage'
+
+export default function ErrorMessageTest() {
+  const dispatch = useDispatch()
+  const errorMessage = useSelector<AppState, E.State>(({errorMessage}) => errorMessage)
+
+  const generateErrorMessage = useCallback(() => {
+    dispatch<any>(E.generateErrorMessage(D.randomSentence()))
+  }, [dispatch])
+
+  // prettier-ignore
   return (
     <section className="mt-4">
-      <h2 className="font-bold text-5xl text-center">CopyMe</h2>
-      <div className="mt-4"></div>
+      <Title>ErrorMessageTest</Title>
+      <div className="mt-4">
+        <div className="flex justify-center mt-4">
+          <Button className="btn-sm btn-primary" onClick={generateErrorMessage}>
+            GENERATE ERROR MESSAGE
+          </Button>
+        </div>
+        <div className={`mt-4 p-4 flex items-center justify-center bg-red-200 ${errorMessage.length ? '' : 'invisible'}`}>
+          <p className="text-2xl text-red-600 text-bold">error: {errorMessage}</p>
+        </div>
+      </div>
     </section>
   )
 }
