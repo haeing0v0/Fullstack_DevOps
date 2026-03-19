@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공지사항 상세보기</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+    }
+
+    .wrap{
+        width: 700px;
+        margin: 30px auto;
+    }
+
+    h2{
+        text-align: center;
+    }
+
+    table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td{
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    th{
+        width: 120px;
+        background-color: #f2f2f2;
+        text-align: center;
+    }
+
+    .content-box{
+        min-height: 200px;
+        text-align: left;
+        vertical-align: top;
+        white-space: pre-line;
+    }
+
+    .btn-area{
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .btn-area a{
+        display: inline-block;
+        padding: 8px 16px;
+        margin: 0 5px;
+        border: 1px solid #999;
+        background-color: #f7f7f7;
+        color: black;
+        text-decoration: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+    <h2>공지사항 상세보기</h2>
+
+    <table>
+        <tr>
+            <th>번호</th>
+            <td th:text="${notice.id}"></td>
+        </tr>
+        <tr>
+            <th>제목</th>
+            <td th:text="${notice.title}"></td>
+        </tr>
+        <tr>
+            <th>작성자</th>
+            <td th:text="${notice.writer}"></td>
+        </tr>
+        <tr>
+            <th>작성일</th>
+            <td th:text="${notice.regDate}"></td>
+        </tr>
+        <tr>
+            <th>조회수</th>
+            <td th:text="${notice.hit}"></td>
+        </tr>
+        <tr>
+            <th>내용</th>
+            <td class="content-box" th:text="${notice.content}"></td>
+        </tr>
+    </table>
+
+    <div class="btn-area">
+        <a th:href="@{/notice/list}">목록</a>
+        <a th:href="@{/notice/update(id=${notice.id})}">수정</a>
+        <a th:href="@{/notice/delete(id=${notice.id})}"
+           onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+    </div>
+</div>
+
+</body>
+</html>

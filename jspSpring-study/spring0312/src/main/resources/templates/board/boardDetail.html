@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시글 상세 조회</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<h2>게시글 상세조회</h2>
+	<form id="frm" method="post" enctype="multipart/form-data">
+		<table class="board_detail">
+				<colgroup>
+					<col width="15%">
+					<col width="35%">
+					<col width="15%">
+					<col width="35%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th scope="row">글번호</th>
+						<td th:text="${board.boardId}"></td>
+						<th scope="row">조회수</th>
+						<td th:text="${board.hitCnt}"></td>
+					</tr>
+					<tr>
+						<th scope="row">작성자</th>
+						<td th:text="${board.creatorId}"></td>
+						<th scope="row">작성일</th>
+						<td th:text="${board.createdDatetime}"></td>
+					</tr>
+					<tr>
+						<th scope="row">제목</th>
+						<td colspan="3">
+							<input type="text" id="title" name="title" th:value="${board.title}">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<textarea title="내용" id="contents" name="contents" th:text="${board.contents}"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>첨부파일 목록</th>
+						<td>
+							<ul style="padding-left: 0;">
+								<li th:each="file : ${board.fileList}" th:id="'file-' + ${file.fileIdx}">
+									<span th:text="${file.originalFileName}"></span>
+									<button type="button" class="btn" th:onclick="'fn_deleteFile(' + ${file.fileIdx} + ')'">파일삭제</button>
+								</li>
+							</ul>
+							<div style="margin-top: 10px;">
+								<label>새 파일추가:</label>
+								<input type="file" name="files" multiple="multiple">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+		</table>
+		<input type="hidden" name="boardId" th:value="${board.boardId}">
+	</form>
+	
+	<div style="margin-top: 15px; text-align: right;">
+		<a th:href="@{/board/openBoardList.do}" class="btn">목록으로</a>
+		<button type="button" class="btn" onclick="fn_update()">수정하기</button>
+		<button type="button" class="btn" onclick="fn_delete()">삭제하기</button>
+	</div>
+</div>
+
+<script th:inline="javascript">
+	document.getElementById('btnUpdate').addEventListener("click", function(){
+		const frm = document.getElementById('frm');
+		const title = document.getElementById('title').value;
+		const contents = document.getElementById('contents').value;
+		
+		if(!title || !contents){
+			alert("제목과 내용을 모두 입력해 주세요.");
+			return;
+		}
+		
+		if (confirm("정말로 수정하시겠습니까?")) {
+			frm.action = "/board/updateBoard.do";
+			frm.submit();
+		}
+	});
+	
+	document.getElementById('btnDelete').addEventListener("click", function(){
+		
+		if (confirm("이 게시물을 삭제하시겠습니까?")) {
+			const frm = document.getElementById('frm');
+			frm.action = "/board/deleteBoard.do";
+			frm.submit();
+		}
+	});
+	
+	function fn_update() {
+		if(confirm("수정사항을 저장하시겠습니까?")) {
+			$("#frm").attr("action", "/board/updateBoard.do").submit();
+		}
+	}
+	
+	function fn_delete() {
+		if(confirm("게시글을 정말 삭제하시겠습니까?")) {
+			$("#frm").attr("action", "/board/deleteBoard.do").submit();
+		}
+	}
+	
+	function fn_deleteFile(fileIdx) {
+		if(confirm("해당 파일을 즉시 삭제하시겠습니까?")) {
+			$.ajax({
+				url:'/board/deleteFile.do',
+				type: 'POST',
+				data: {fileIdx: fileIdx},
+				success: function(result) {
+					if (result === "success") {
+						alert("파일이 삭제되었습니다.");
+						$("#file-" + fileIdx).remove();
+					}
+				},
+				error: function() {
+					alert("서버 통신 오류");
+				}
+			});
+		}
+	}
+	
+</script>
+</body>
+</html>
+
+
+
+

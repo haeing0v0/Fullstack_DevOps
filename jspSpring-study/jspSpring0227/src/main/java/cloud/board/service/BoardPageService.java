@@ -1,0 +1,31 @@
+package cloud.board.service;
+
+import cloud.board.dao.BoardDAO;
+import cloud.board.dto.PageTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class BoardPageService implements BoardService {
+
+	@Override
+	public void execute(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+	
+		int curPage = 1;
+		
+		if (req.getParameter("curPage") != null) {
+			curPage = Integer.parseInt(req.getParameter("curPage"));
+		}
+		
+		BoardDAO dao = new BoardDAO();
+		PageTO list = dao.page(curPage);
+		
+		req.setAttribute("list", list.getList());
+		req.setAttribute("page", list);
+	}
+}
+
+
+
+
+

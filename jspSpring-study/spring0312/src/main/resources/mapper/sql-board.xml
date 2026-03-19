@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cloud.mapper.BoardMapper">
+	<select id="selectBoardList" resultType="org.cloud.dto.BoardDTO">
+		<![CDATA[
+			SELECT
+				board_id, title, contents, hit_cnt, DATE_FORMAT(created_datetime, '%Y-%m-%d') AS created_datetime, creator_id, updated_datetime, updater_id, deleted_yn
+			FROM
+				t_board
+				WHERE deleted_yn = 'N' ORDER BY board_id DESC;
+		]]>
+	</select>
+	
+	<insert id="insertBoard" parameterType="org.cloud.dto.BoardDTO" useGeneratedKeys="true" keyProperty="boardId">
+		<![CDATA[
+			INSERT
+			INTO
+				t_board(title, contents, created_datetime, creator_id)
+			VALUES
+				(#{title}, #{contents}, NOW(), #{creatorId})
+		]]>
+	</insert>
+	
+	<select id="openBoardDetail" parameterType="int" resultType="org.cloud.dto.BoardDTO">
+		<![CDATA[
+			SELECT
+				board_id,
+				title,
+				contents,
+				hit_cnt,
+				DATE_FORMAT(created_datetime,'%Y-%m-%d') AS createdDatetime,
+				creator_id
+			FROM
+				t_board
+			WHERE
+				board_id = #{boardId}
+		]]>
+	</select>
+	
+    <update id="updateHitCount" parameterType="int">
+    	<![CDATA[
+	        UPDATE t_board
+	        SET hit_cnt = hit_cnt + 1
+	        WHERE board_id = #{boardId}
+        ]]>
+    </update>
+
+    <update id="updateBoard" parameterType="org.cloud.dto.BoardDTO">
+    	<![CDATA[
+	        UPDATE t_board
+	        SET
+	            title = #{title},
+	            contents = #{contents},
+	            updater_id = #{updaterId},
+	            updated_datetime = NOW()
+	        WHERE board_id = #{boardId}
+        ]]>
+    </update>
+
+    <update id="deleteBoard" parameterType="int">
+    	<![CDATA[
+	        UPDATE t_board
+	        SET
+	            deleted_yn = 'Y',
+	            updated_datetime = NOW()
+	        WHERE board_id = #{boardId}
+        ]]>
+    </update>
+	
+	<insert id="insertFileList" parameterType="org.cloud.dto.FileDTO">
+		<![CDATA[
+			INSERT INTO
+				t_file(board_id, original_file_name, stored_file_path, file_size, creator_id, created_datetime)
+			VALUES
+		]]>
+		<foreach collection="list" item="item" separator=",">
+			(#{item.boardId}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, #{item.creatorId}, NOW())
+		</foreach>
+	</insert>
+	
+	<select id="selectFileList" resultType="org.cloud.dto.FileDTO" parameterType="int">
+		<![CDATA[
+			SELECT
+				file_idx, board_id, original_file_name, ROUND(file_size/1024) AS file_size, stored_file_path, creator_id
+			FROM
+				t_file
+			WHERE
+				board_id = #{boardId} and deleted_yn = 'N'
+		]]>
+	</select>
+	
+	<delete id="deleteFile" parameterType="int">
+		<![CDATA[
+			DELETE
+			FROM
+				t_file
+			WHERE
+				file_idx = #{fileIdx}
+		]]>
+	</delete>
+</mapper>
