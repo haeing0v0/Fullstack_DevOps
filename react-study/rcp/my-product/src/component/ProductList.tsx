@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { data, Link } from "react-router-dom";
 import { productApi } from "../api/axiosInstance";
 import type { ProductDTO } from "../types/product";
+import "./ProductList.css";
 
 const ProductList: React.FC = () => {
   const [list, setList] = useState<ProductDTO[]>([]);
@@ -14,9 +15,9 @@ const ProductList: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2></h2>
-      <table>
+    <div className="list-container">
+      <h2 className="list-title">상품 목록</h2>
+      <table className="board-table">
         <thead>
           <tr>
             <th style={{ width: "10%" }}>번호</th>
