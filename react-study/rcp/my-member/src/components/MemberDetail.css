@@ -1,7 +1,7 @@
 .detail-page {
   display: flex;
   justify-content: center;
-  aligh-items: flex-start;
+  align-items: flex-start;
   min-height: 100vh;
   background-color: #f8f9fa;
   padding: 40px 20px;
@@ -66,7 +66,7 @@
   border: none;
   border-radius: 8px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 600
   cursor: pointer;
   transition: filter 0.2s;
 }
@@ -86,6 +86,7 @@
 }
 
 .btn-list {
-  background-color: #adb5b;
+  background-color: #adb5bd;
   color: white;
 }
+
